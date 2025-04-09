@@ -1,0 +1,61 @@
+<!-- templates/downloader/home.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header gradient-bg text-white">
+                <h3 class="mb-0 text-center">Download YouTube Videos</h3>
+            </div>
+            <div class="card-body">
+                {% if error_message %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>Error:</strong> {{ error_message }}
+                </div>
+                
+                {% if troubleshooting_tips %}
+                <div class="alert alert-info" role="alert">
+                    <h5>Troubleshooting Tips:</h5>
+                    <ol>
+                        <li>Make sure you're using a valid YouTube URL (starts with https://www.youtube.com/watch?v= or https://youtu.be/)</li>
+                        <li>Try updating pytube with: <code>pip install --upgrade pytube</code></li>
+                        <li>Check if the video has restrictions (age-restricted or private videos may not work)</li>
+                        <li>Try with a different video to see if the issue is video-specific</li>
+                    </ol>
+                </div>
+                {% endif %}
+                {% endif %}
+                
+                <form method="post" action="{% url 'App:download_video' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.url.label_tag }}
+                        {{ form.url }}
+                        <div class="form-text">Paste the YouTube video URL you want to download</div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-search me-2"></i>Get Video
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4 shadow">
+            <div class="card-header gradient-bg text-white">
+                <h5 class="mb-0">How to Use</h5>
+            </div>
+            <div class="card-body">
+                <ol class="mb-0">
+                    <li>Copy the URL of the YouTube video you want to download</li>
+                    <li>Paste the URL in the input field above</li>
+                    <li>Click "Get Video" to see available download options</li>
+                    <li>Select your preferred quality and download the video</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
